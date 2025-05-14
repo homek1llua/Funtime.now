@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Guessing Game</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #f3f3f3;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff6347;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border: 2px solid #ff6347;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        input:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 99, 71, 0.5);
+        }
+        #hint {
+            font-style: italic;
+            color: #ff6347;
+        }
+        #wrongGuesses {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Random Word!</h1>
+    <p>Try to guess a word from a list of 100 cool words!</p>
+    <input type="text" id="guess" placeholder="Enter your guess" onkeydown="if(event.key === 'Enter') { checkGuess(); }">
+    <button onclick="checkGuess()">Guess</button>
+    <p id="result"></p>
+    <p id="hint"></p>
+    <p>Wrong guesses: <span id="wrongGuesses">0</span></p>
+
+    <script>
+        const words = ["Yeet", "Sus", "Meme", "Bruh", "Noob", "Dank", "Clout", "Flex", "Woke", "Lit", 
+        "Vibe", "Mood", "Savage", "Thicc", "Bop", "FOMO", "GOAT", "Hype", "Fire", "Shade", "Stan", 
+        "Gucci", "Dope", "Cap", "Lowkey", "Highkey", "Bet", "Snack", "Skrrt", "Lurk", "Bae", "Cringe", 
+        "Troll", "Clapped", "POG", "Yikes", "Slay", "Finesse", "Deadass", "Boujee", "Rizz", "Juiced", 
+        "W", "BigMood", "NoCap", "HundoP", "Snatched", "Clown", "Stonks", "Dank", "Yass", "BigBrain", 
+        "Glitch", "Memeulous", "Wavy", "Flexin'", "G.O.A.T.", "Litty", "Slaps", "Lame", "Brainrot", "VibeCheck", 
+        "YeetMaster", "CloutChaser", "Memelord", "NoLifer", "BrainFreeze", "DankMemes", "MemeQueen", "VibeCheck", 
+        "EpicFail", "GlowUp", "Lite", "Yolo", "Zoomer", "GenZ", "Shook", "FlexOn", "NoStress", "HypeBeast", 
+        "VibeSesh", "LameAlert", "GucciGang", "CloutKing", "MemeGod", "BrainMelt", "EpicVibes", "SlangMaster", 
+        "Chillax", "LMAO", "OMG", "YAAAS", "SpillTheTea", "VibeLord", "SquadGoals", "InTheZone", "PogChamp", 
+        "DankVibes", "MemeStorm"];
+
+        let randomWord = words[Math.floor(Math.random() * words.length)];
+        let wrongGuessCount = 0;
+
+        function checkGuess() {
+            const guess = document.getElementById("guess").value.toLowerCase();
+            const result = document.getElementById("result");
+            const wrongGuesses = document.getElementById("wrongGuesses");
+            const hint = document.getElementById("hint");
+
+            if (guess === randomWord.toLowerCase()) {
+                result.textContent = "Correct! The word was: " + randomWord;
+                hint.textContent = "";
+                wrongGuessCount = 0;
+                randomWord = words[Math.floor(Math.random() * words.length)];
+            } else {
+                wrongGuessCount++;
+                wrongGuesses.textContent = wrongGuessCount;
+
+                if (wrongGuessCount % 3 === 0) {
+                    giveHint();
+                }
+
+                result.textContent = "Incorrect guess. Try again!";
+            }
+
+            document.getElementById("guess").value = "";
+        }
+
+        function giveHint() {
+            const hint = document.getElementById("hint");
+            const hintLetter = randomWord.charAt(Math.floor(Math.random() * randomWord.length));
+            hint.textContent = `Hint: One of the letters is '${hintLetter}'`;
+        }
+    </script>
+</body>
+</html>
